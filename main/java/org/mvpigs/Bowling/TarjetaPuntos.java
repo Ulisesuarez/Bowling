@@ -98,13 +98,13 @@ public class TarjetaPuntos {
 			
 			if (esStrike(turno)){
 				//System.out.println("STRIKE");
-				return Strike(turnoIndice);
+				return strike(turnoIndice);
 			}
 			
 		    else if (turno.contains("/")){
 		    	//System.out.println("SPARE");
 		    	
-				return Spare(turnoIndice);
+				return spare(turnoIndice);
 				}
 			else if (turno.contains("-")){
 					
@@ -119,12 +119,12 @@ public class TarjetaPuntos {
 		}
 		
 		else{
-			 return UltimaTirada();
+			 return puntosUltimaTirada();
 		}
 		return 0;
 	}
 
-	private int UltimaTirada() {
+	private int puntosUltimaTirada() {
 		
 		int puntos=0;
 		boolean notDoneSpareFlag=true;
@@ -142,7 +142,7 @@ public class TarjetaPuntos {
 					
 					puntos=puntos+10;
 					
-					if (NoEsEspecial(this.turnos[9].charAt(2))){
+					if (noEsEspecial(this.turnos[9].charAt(2))){
 						
 						puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(2));
 						
@@ -154,7 +154,7 @@ public class TarjetaPuntos {
 				}
 			}
 			
-			else if (!esSpare(this.turnos[9]) && NoEsEspecial(this.turnos[9].charAt(tirada))){
+			else if (!esSpare(this.turnos[9]) && noEsEspecial(this.turnos[9].charAt(tirada))){
 					
 					puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(tirada));
 				}
@@ -163,7 +163,7 @@ public class TarjetaPuntos {
 		return puntos;	
 	}
 		
-	private int Spare(int turnoIndice) {
+	private int spare(int turnoIndice) {
 		
 		int puntos=10;
 		
@@ -178,10 +178,10 @@ public class TarjetaPuntos {
 	}
 	
 	private boolean esEspecial(String turno){
-		return !NoEsEspecial(turno);
+		return !noEsEspecial(turno);
 	}
 	
-	private boolean NoEsEspecial(char tirada){
+	private boolean noEsEspecial(char tirada){
 		
 		return !((""+tirada).contains(""+CARACTERES_ESPECIALES.charAt(0))) &&
 				!((""+tirada).contains(""+CARACTERES_ESPECIALES.charAt(1))) &&
@@ -189,7 +189,7 @@ public class TarjetaPuntos {
 	}
 	
 	
-	private boolean NoEsEspecial(String turno) {
+	private boolean noEsEspecial(String turno) {
 		
 		return !((turno).contains(""+CARACTERES_ESPECIALES.charAt(0))) &&
 				!((turno).contains(""+CARACTERES_ESPECIALES.charAt(1))) &&
@@ -215,7 +215,7 @@ public class TarjetaPuntos {
 		
 	}
 
-	private int Strike(int turno) {
+	private int strike(int turno) {
 		
 		int puntos=10;
 		boolean primeroStrike=false;
@@ -238,7 +238,7 @@ public class TarjetaPuntos {
 				else{
 					for (int tirada=0;tirada<2;tirada++){
 						
-						if (notDoneSpareFlag && NoEsEspecial(this.turnos[turno+1].charAt(tirada))){
+						if (notDoneSpareFlag && noEsEspecial(this.turnos[turno+1].charAt(tirada))){
 							puntos=puntos+Character.getNumericValue(this.turnos[turno+1].charAt(tirada));
 							
 						}
@@ -255,14 +255,14 @@ public class TarjetaPuntos {
 						
 						puntos=puntos+10;
 						}
-					if(NoEsEspecial(this.turnos[9].charAt(1))){
+					if(noEsEspecial(this.turnos[9].charAt(1))){
 							
 						puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(1));
 					
 						
 					}
 				}
-				if (turno+2<this.turnos.length && NoEsEspecial(this.turnos[turno+2].charAt(0))){
+				if (turno+2<this.turnos.length && noEsEspecial(this.turnos[turno+2].charAt(0))){
 						
 					puntos=puntos+Character.getNumericValue(this.turnos[turno+2].charAt(0));
 				

@@ -147,6 +147,83 @@ public void TestSumaPuntosHibrid8(){
 	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/X2/1/X");
 	Assert.assertEquals(155, partida9.getTotalPuntos());}
 
+@Test
+public void TotalScoreStrikeTest() {
+	/* If on his first try in the frame he knocks down all the
+	 * pins, this is called a “strike”. His turn is over, and his
+	 * score for the frame is ten plus the simple total of the
+	 * pins knocked down in his next two rolls.
+	 * If he gets a spare or strike in the last (tenth) frame,
+	 * the bowler gets to throw one or two more bonus balls,
+	 * respectively. - These bonus throws are taken as part of
+	 * the same turn. If the bonus throws knock down all the
+	 * pins, the process does not repeat: the bonus throws are
+	 * only used to calculate the score of the final frame.
+	 */
+
+	String pins = "X9-9-9-9-9-9-9-9-9-";
+	int total = 100;
+	TarjetaPuntos TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// two extra final rolls
+	pins = "9-9-9-9-9-9-9-9-9-X9-";
+	total = 100;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	pins = "X9-X9-9-9-9-9-9-9-";
+	total = 110;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// two strikes in a row is a double
+	pins = "XX9-9-9-9-9-9-9-9-";
+	total = 120;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// three strikes in a row is a triple
+	pins = "XXX9-9-9-9-9-9-9-";
+	total = 141;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// two strikes in extra rolls
+	pins = "9-9-9-9-9-9-9-9-9-XXX";
+	total = 111;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// 12 strikes is a “Thanksgiving Turkey”.
+	pins = "XXXXXXXXXXXX";
+	total = 300;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// spare in extra roll
+	pins = "8/549-XX5/53639/9/X";
+	total = 149;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+	// spare in extra roll
+	pins = "X5/X5/XX5/--5/X5/";
+	total = 175;
+	TarjetaPuntos = new TarjetaPuntos(pins);
+	
+	Assert.assertEquals(total, TarjetaPuntos.getTotalPuntos());
+
+}
+
 /**@Test
 
 public void AutomaticTestTarjetaPuntos(){
