@@ -20,6 +20,16 @@ public class TarjetaPuntos {
 		this.calcularTotalPuntos();
 	  //this.totalPuntos
 			};
+			
+	public TarjetaPuntos() {
+		 /**Constructor*/
+		
+		
+		this.turnos=new String[]{"","","","","","","","","",""};
+		
+		this.calcularTotalPuntos();
+	  //this.totalPuntos
+			};
 
 	private void definirTurnos() {
 		
@@ -157,7 +167,7 @@ public class TarjetaPuntos {
 		
 		int puntos=10;
 		
-		if (esStrike(this.turnos[turnoIndice+1])){
+		if (esStrike(this.turnos[turnoIndice+1].charAt(0))){
 			puntos=puntos+10;
 		}
 		else if (noEsCero(this.turnos[turnoIndice+1].charAt(0))){
@@ -214,7 +224,7 @@ public class TarjetaPuntos {
 		for (int turnoIndice=turno+1;turnoIndice<=turno+2;turnoIndice++){
 			
 
-			if (turnoIndice<this.turnos.length && esStrike(this.turnos[turnoIndice])){
+			if ( notDoneSpareFlag && turnoIndice<this.turnos.length && esStrike(this.turnos[turnoIndice])){
 				
 				puntos=puntos+10;
 				primeroStrike=true;
@@ -269,6 +279,9 @@ public class TarjetaPuntos {
 
 	public String[] getTurnos() {
 		return this.turnos;
+	}
+	public void setTurnos(String[] turn) {
+		this.turnos=turn;
 	}
 
 	public int getTotalPuntos() {

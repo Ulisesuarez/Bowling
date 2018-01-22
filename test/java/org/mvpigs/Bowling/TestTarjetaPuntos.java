@@ -135,6 +135,29 @@ public void TestSumaPuntosHibrid6(){
 	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/XX1/9");
 	Assert.assertEquals(164, partida9.getTotalPuntos());}
 
+@Test
+
+public void TestSumaPuntosHibrid7(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/X2/1/9");
+	Assert.assertEquals(154, partida9.getTotalPuntos());}
+
+@Test
+
+public void TestSumaPuntosHibrid8(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/X2/1/X");
+	Assert.assertEquals(155, partida9.getTotalPuntos());}
+
+/**@Test
+
+public void AutomaticTestTarjetaPuntos(){
+	String [] turnos=new String[]{"","","","","","","","","",""};
+	TarjetaPuntos partida9 = new TarjetaPuntos();
+	for (int i=0;i<turnos.length;i++){
+		turnos[i]=
+	}
+	partida9.setTurnos(turnos);
+	Assert.assertEquals(164, partida9.getTotalPuntos());}
+*/
 }
 
 
