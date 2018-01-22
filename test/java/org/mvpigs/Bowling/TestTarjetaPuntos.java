@@ -19,7 +19,7 @@ public class TestTarjetaPuntos {
 	 *Para: Sumar puntos*/
 	@Test
 	public void TestNumeroTurnosTarjetaPuntos(){
-		
+		 System.out.println("TEST NUMERO TURNOS");
 		 TarjetaPuntos partida1= new TarjetaPuntos(puntos);
 		 Assert.assertEquals(10, partida1.getTurnos().length);
 		
@@ -32,6 +32,7 @@ public class TestTarjetaPuntos {
 	 */
 	@Test
 	public void TestNumeroTiradasTurno(){
+		System.out.println("TEST NUMERO TIRADA");
 		TarjetaPuntos partida1= new TarjetaPuntos(puntos);
 		for(int i=0;i<partida1.getTurnos().length-1;i++){
 			Assert.assertTrue("no puede haber más de 2 tiradas por turno ",2>=partida1.getTurnos()[i].length());
@@ -48,6 +49,7 @@ public class TestTarjetaPuntos {
 	 */
 	@Test
 	public void TestSumaPuntos(){
+		System.out.println("TEST SUMA PUNTOS");
 		TarjetaPuntos partida1 = new TarjetaPuntos(puntos);
 		Assert.assertEquals(60, partida1.getTotalPuntos());
 		
@@ -64,8 +66,9 @@ public class TestTarjetaPuntos {
 	
 	@Test
 	public void TestSumaPuntosSpare(){
-		TarjetaPuntos partida = new TarjetaPuntos("5/5/5/5/5/5/5/5/5/5/-");
-		Assert.assertEquals(145, partida.getTotalPuntos());
+		System.out.println("TEST SPARE");
+		TarjetaPuntos partidaSpare = new TarjetaPuntos("5/5/5/5/5/5/5/5/5/5/-");
+		Assert.assertEquals(145, partidaSpare.getTotalPuntos());
 	}
 
 	/**If on his first try in the frame he knocks down all the
@@ -82,13 +85,57 @@ public class TestTarjetaPuntos {
 	@Test
 	
 	public void TestSumaPuntosStrike(){
-		TarjetaPuntos partida = new TarjetaPuntos("XXXXXXXXXXXX");
-		Assert.assertEquals(300, partida.getTotalPuntos());}
+		System.out.println("TEST STRIKE");
+		TarjetaPuntos partidaStrike = new TarjetaPuntos("XXXXXXXXXXXX");
+		
+		Assert.assertEquals(300, partidaStrike.getTotalPuntos());
+		}
+	
 	@Test
 	
-	public void TestSumaPuntosZero(){
-		TarjetaPuntos partida = new TarjetaPuntos("9-9-9-9-9-9-9-9-9-9-");
-		Assert.assertEquals(90, partida.getTotalPuntos());}
+	public void TestSumaPuntosCero(){
+		System.out.println("TEST CERO");
+		TarjetaPuntos partidaCero = new TarjetaPuntos("9-9-9-9-9-9-9-9-9-9-");
+		Assert.assertEquals(90, partidaCero.getTotalPuntos());}
+
+
+@Test
+
+public void TestSumaPuntosHibrid1(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/-----/-");
+	Assert.assertEquals(104, partida9.getTotalPuntos());}
+
+@Test
+
+public void TestSumaPuntosHibrid2(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/-----/9");
+	Assert.assertEquals(113, partida9.getTotalPuntos());}
+
+
+@Test
+
+public void TestSumaPuntosHibrid3(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/----9/9");
+	Assert.assertEquals(113, partida9.getTotalPuntos());}
+
+@Test
+
+public void TestSumaPuntosHibrid4(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/XX-/9");
+	Assert.assertEquals(163, partida9.getTotalPuntos());}
+
+@Test
+
+public void TestSumaPuntosHibrid5(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/XXX9/");
+	Assert.assertEquals(183, partida9.getTotalPuntos());}
+@Test
+
+public void TestSumaPuntosHibrid6(){
+	TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/XX1/9");
+	Assert.assertEquals(164, partida9.getTotalPuntos());}
+
 }
+
 
 

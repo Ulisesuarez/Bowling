@@ -2,121 +2,111 @@ package org.mvpigs.Bowling;
 
 import java.util.Arrays;
 
+
+
 public class TarjetaPuntos {
 
-	
-	 
-
-	private String puntos;
-	private String[] turnos={"","","","","","","","","",""};
-	private int TotalPuntos;
-	private String CARACTERES_ESPECIALES="-X/";
+	private static final String CARACTERES_ESPECIALES="-X/";
+	private String puntos="";
+	private int totalPuntos=0;
+	private String[] turnos;
 
 	public TarjetaPuntos(String puntosJugador) {
-		
+		 /**Constructor*/
 		
 		this.puntos=puntosJugador;
-		
-		DefinirTurnos();
-		
-		this.TotalPuntos=CalcularTotalPuntos();
-	};
+		this.turnos=new String[]{"","","","","","","","","",""};
+		this.definirTurnos();
+		this.calcularTotalPuntos();
+	  //this.totalPuntos
+			};
 
-	private void DefinirTurnos() {
-		int j=0;
+	private void definirTurnos() {
 		
+		int turnoIndice=0;
 		int numeroTurnosStrike = 0;
 		int numeroTurnosDosTiradas=0;
-		for (int i=0;i<this.puntos.length();i++){
-			if ( j<(this.turnos.length-1) && this.puntos.charAt(i)=='X'){
-				this.turnos[j]="X";
+		
+		for (int tirada=0;tirada<this.puntos.length();tirada++){
+			
+			if ( noEsUltimoTurno(turnoIndice) && esStrike(this.puntos.charAt(tirada))){
 				
+				this.turnos[turnoIndice]="X";
 				numeroTurnosStrike++;
 				
 			}
-			else if(j<this.turnos.length-1 && this.turnos[j].length()<2){
-				System.out.println(("hola"));
-				System.out.println(i);
-				System.out.println(this.puntos.charAt(i));
-				this.turnos[j]=this.turnos[j]+this.puntos.charAt(i);
-				System.out.println(Arrays.toString(this.turnos));
-				System.out.println(this.turnos[j]);
-				System.out.println(j);
-				System.out.println(turnos[j].length());
+			else if(noEsUltimoTurno(turnoIndice) && this.turnos[turnoIndice].length()<2){
+				
+				this.turnos[turnoIndice]=this.turnos[turnoIndice]+this.puntos.charAt(tirada);
 				numeroTurnosDosTiradas++;
 				
 			}
-			if (j<this.turnos.length-1 && isStrike(this.turnos[j].charAt(0)) || turnos[j].length() == 2){
-				j++;
+			if (noEsUltimoTurno(turnoIndice) && (esStrike(this.turnos[turnoIndice].charAt(0)) || turnos[turnoIndice].length() == 2)){
+				
+				turnoIndice++;
 			}
 		
 		}
-		System.out.println(this.puntos.substring(numeroTurnosStrike+(numeroTurnosDosTiradas)));
+		
+		/**Ultimo turno*/
 		this.turnos[9]= this.puntos.substring(numeroTurnosStrike+(numeroTurnosDosTiradas));
-		}
+		
+	System.out.println(Arrays.toString(turnos));}
 
-	private int CalcularTotalPuntos() {
+	private boolean noEsUltimoTurno(int turnoIndice) {
+		return turnoIndice<(this.turnos.length-1);
+	}
+
+	private void calcularTotalPuntos() {
+		
 		int sumaPuntos=0;
 		
-		
-		System.out.println(Arrays.toString(this.turnos));
-		for (int i=0;i<this.turnos.length;i++){
-			boolean NoEntradoFlag=true;
-			
-			System.out.println(sumaPuntos);
-			for (int k=0;k<CARACTERES_ESPECIALES.length();k++){	
-				if (NoEntradoFlag && this.turnos[i].contains(""+CARACTERES_ESPECIALES.charAt(k))){
-					NoEntradoFlag=false;
-					System.out.println("dentro");
-					System.out.println(sumaPuntos);
-					sumaPuntos=sumaPuntos+CalculapuntosEspecial(turnos[i],i);
-					System.out.println("holaa");
-					System.out.println(sumaPuntos);
-					System.out.println("fin");
-				}
-				else if(k==0 && NoEsEspecial(this.turnos[i])){
+		for (int turnoIndice=0;turnoIndice<this.turnos.length;turnoIndice++){
+	
+						
+				if (esEspecial(this.turnos[turnoIndice])){
+
+					sumaPuntos=sumaPuntos+calculaPuntosEspecial(this.turnos[turnoIndice],turnoIndice);
 					
-					System.out.println("NOOO");
-					for (int j=0;j<this.turnos[i].length();j++){
-					int valorPuntos = Character.getNumericValue(this.turnos[i].charAt(j));
-					sumaPuntos=sumaPuntos+valorPuntos;
+				}
+				else{ //if(NoEsEspecial(this.turnos[i])){
+					
+					
+					for (int tirada=0;tirada<this.turnos[turnoIndice].length();tirada++){
+						int valorPuntos = Character.getNumericValue(this.turnos[turnoIndice].charAt(tirada));
+						sumaPuntos=sumaPuntos+valorPuntos;
 					}
 				}
 			}
 			
-			
+		this.totalPuntos=sumaPuntos;	
 		}
-	System.out.println(sumaPuntos);
-	return sumaPuntos;	
-	}
 	
-	private int CalculapuntosEspecial(String turno, int i) {
-		System.out.println("calculus");
-		System.out.println(turno);
-		System.out.println(i);
-		if(i!=9){
-			System.out.println(turno);
-			if (turno=="X"){
-				System.out.println("STRIKE");
-				return Strike(i);
+	private int calculaPuntosEspecial(String turno, int turnoIndice) {
+		
+		if(noEsUltimoTurno(turnoIndice)){
+			
+			if (esStrike(turno)){
+				//System.out.println("STRIKE");
+				return Strike(turnoIndice);
 			}
 			
 		    else if (turno.contains("/")){
-		    	System.out.println("soycalculanew");
-		    	System.out.println(Spare(i));
-					return Spare(i);
+		    	//System.out.println("SPARE");
+		    	
+				return Spare(turnoIndice);
 				}
 			else if (turno.contains("-")){
 					
-						for (int j=0;j<this.turnos[i].length();j++){
-							if (this.turnos[i].charAt(j)!='-'){		
-								return Character.getNumericValue(this.turnos[i].charAt(j));
-							}
-						}
+				for (int tirada=0;tirada<this.turnos[turnoIndice].length();tirada++){
+				
+					if (noEsCero(this.turnos[turnoIndice].charAt(tirada))){		
+						
+						return Character.getNumericValue(this.turnos[turnoIndice].charAt(tirada));
 					}
 				}
-			
-		
+			}
+		}
 		
 		else{
 			 return UltimaTirada();
@@ -125,55 +115,60 @@ public class TarjetaPuntos {
 	}
 
 	private int UltimaTirada() {
-		System.out.println("ultima tirada!");
+		
 		int puntos=0;
-		for (int i=0;i<this.turnos[9].length();i++){
-			if (isStrike(this.turnos[9].charAt(i))){
-				System.out.println("ultimoStrike");
+		boolean notDoneSpareFlag=true;
+		for (int tirada=0;tirada<this.turnos[9].length();tirada++){
+			
+			
+			if (esStrike(this.turnos[9].charAt(tirada))){
+				
 				puntos=puntos+10;
 			}
-			else if (i==0 && isSpare(this.turnos[9])){
-				System.out.println("ultimo Spare!");
-				System.out.println(this.turnos[9].charAt(1));
-				System.out.println(isSpare(""+this.turnos[9].charAt(1)));
-				if (isSpare(""+this.turnos[9].charAt(1))){
-					System.out.print("que?");
-					System.out.println("enmedio Spare!");
-					System.out.println(puntos);
+			
+			else if (notDoneSpareFlag && esSpare(this.turnos[9])){
+				notDoneSpareFlag=false;
+				if (esSpare(""+this.turnos[9].charAt(1))){
+					
 					puntos=puntos+10;
-					System.out.println(puntos);
+					
 					if (NoEsEspecial(this.turnos[9].charAt(2))){
-						System.out.println("voy por alli");
-						System.out.println(this.turnos[9].charAt(2));
+						
 						puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(2));
 						
 					}
 				}
-				else{
-					System.out.println("voy por aqui");
+				else{ //if Spare es la ultima tirada
+					
 					puntos=puntos+10;
 				}
 			}
-			else if (NoEsEspecial(this.turnos[9].charAt(i))){
-					System.out.println(puntos);
-					System.out.println(this.turnos[9].charAt(i));
-					puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(i));
-					System.out.println(puntos);}
-			}
-		return puntos;	
+			
+			else if (!esSpare(this.turnos[9]) && NoEsEspecial(this.turnos[9].charAt(tirada))){
+					
+					puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(tirada));
+				}
 		}
 		
-	private int Spare(int i) {
+		return puntos;	
+	}
+		
+	private int Spare(int turnoIndice) {
+		
 		int puntos=10;
 		
-		if (isStrike(this.turnos[i+1])){
+		if (esStrike(this.turnos[turnoIndice+1])){
 			puntos=puntos+10;
 		}
-		else if (! isZero(this.turnos[i+1].charAt(0))){
-		puntos=puntos+Character.getNumericValue(this.turnos[i+1].charAt(0));
-				}
+		else if (noEsCero(this.turnos[turnoIndice+1].charAt(0))){
+		puntos=puntos+Character.getNumericValue(this.turnos[turnoIndice+1].charAt(0));
+		}
 		
 		return puntos;
+	}
+	
+	private boolean esEspecial(String turno){
+		return !NoEsEspecial(turno);
 	}
 	
 	private boolean NoEsEspecial(char tirada){
@@ -183,66 +178,83 @@ public class TarjetaPuntos {
 				!((""+tirada).contains(""+CARACTERES_ESPECIALES.charAt(2)));
 	}
 	
-	private boolean NoEsEspecial(String tirada) {
+	
+	private boolean NoEsEspecial(String turno) {
 		
-		return !((tirada).contains(""+CARACTERES_ESPECIALES.charAt(0))) &&
-				!((tirada).contains(""+CARACTERES_ESPECIALES.charAt(1))) &&
-				!((tirada).contains(""+CARACTERES_ESPECIALES.charAt(2)));
+		return !((turno).contains(""+CARACTERES_ESPECIALES.charAt(0))) &&
+				!((turno).contains(""+CARACTERES_ESPECIALES.charAt(1))) &&
+				!((turno).contains(""+CARACTERES_ESPECIALES.charAt(2)));
 	}
 	
-	private boolean isZero(char tirada) {
+	private boolean noEsCero(char tirada) {
 		// TODO Auto-generated method stub
-		return tirada == '-';
+		return tirada != '-';
 	}
 	
-	private boolean isStrike(char tirada) {
+	private boolean esStrike(char tirada) {
 		// TODO Auto-generated method stub
 		return tirada=='X';
 	}
 
-	private boolean isStrike(String turno){
+	private boolean esStrike(String turno){
 		return turno.contains("X");
 	}
 	
-	private boolean isSpare(String turno){
+	private boolean esSpare(String turno){
 		return turno.contains("/");
 		
 	}
 
 	private int Strike(int turno) {
-		System.out.println("turno");
-		System.out.println(turno);
+		
 		int puntos=10;
 		boolean primeroStrike=false;
-		for (int j=turno+1;j<turno+3;j++){
-			System.out.println(j);
-			if (j<this.turnos.length && isStrike(this.turnos[j].charAt(0))){
+		boolean notDoneSpareFlag=true;
+		
+		for (int turnoIndice=turno+1;turnoIndice<=turno+2;turnoIndice++){
+			
+
+			if (turnoIndice<this.turnos.length && esStrike(this.turnos[turnoIndice])){
+				
 				puntos=puntos+10;
 				primeroStrike=true;
 				}
 			else if (!primeroStrike) {
-				if(isSpare(this.turnos[turno+1])){
+				
+				if(notDoneSpareFlag && esSpare(this.turnos[turno+1])){
+					notDoneSpareFlag=false;
 					puntos=puntos+10;
 					}
 				else{
-					for (int k=0;k<2;k++){
-						if (! isZero(this.turnos[turno+1].charAt(k))){
-							puntos=puntos+Character.getNumericValue(this.turnos[turno+1].charAt(k));
+					for (int tirada=0;tirada<2;tirada++){
+						
+						if (notDoneSpareFlag && NoEsEspecial(this.turnos[turno+1].charAt(tirada))){
+							puntos=puntos+Character.getNumericValue(this.turnos[turno+1].charAt(tirada));
+							
 						}
 			
-					}
+					}return puntos;
 				
 						}
 			}
-			else{
-				if (j==this.turnos.length){
-					if(isStrike(this.turnos[9].charAt(1))){
+			else{ //if primeroStrike:
+				
+				if (turnoIndice==this.turnos.length){ 
+					
+					if(esStrike(this.turnos[9].charAt(1))){
+						
 						puntos=puntos+10;
+						}
+					if(NoEsEspecial(this.turnos[9].charAt(1))){
+							
+						puntos=puntos+Character.getNumericValue(this.turnos[9].charAt(1));
+					
 						
 					}
 				}
-				if (turno+2<this.turnos.length && ! isZero(this.turnos[turno+2].charAt(0))){
-						puntos=puntos+Character.getNumericValue(this.turnos[turno+2].charAt(0));
+				if (turno+2<this.turnos.length && NoEsEspecial(this.turnos[turno+2].charAt(0))){
+						
+					puntos=puntos+Character.getNumericValue(this.turnos[turno+2].charAt(0));
 				
 			}
 						
@@ -260,7 +272,8 @@ public class TarjetaPuntos {
 	}
 
 	public int getTotalPuntos() {
-		return TotalPuntos;
+
+		return this.totalPuntos;
 	}
 
 }
