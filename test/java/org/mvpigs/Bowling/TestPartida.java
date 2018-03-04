@@ -8,8 +8,10 @@ public class TestPartida {
 	
 	public void TestSumaPuntosStrike(){
 		TarjetaPuntos partida9 = new TarjetaPuntos("XX9-9-9-9-3/-----/-");
-		Assert.assertEquals(104, partida9.getTotalPuntos());}
-	
+		Assert.assertEquals(104, partida9.getTotalPuntos());
+		System.out.println(partida9.getTotalPuntos());
+		System.out.println("soyyolaquesigueaqui");}
+		
 }
 
 

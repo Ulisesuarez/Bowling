@@ -9,7 +9,7 @@ public class TarjetaPuntos {
 	private static final String CARACTERES_ESPECIALES="-X/";
 	private String puntos="";
 	private int totalPuntos=0;
-	private String[] turnos;
+	private String[] turnos=null;
 
 	public TarjetaPuntos(String puntosJugador) {
 		 /**Constructor*/
@@ -17,8 +17,9 @@ public class TarjetaPuntos {
 		this.puntos=puntosJugador;
 		this.turnos=new String[]{"","","","","","","","","",""};
 		this.definirTurnos();
+		this.totalPuntos=0;
 		this.calcularTotalPuntos();
-	  //this.totalPuntos
+	  
 			};
 			
 	public TarjetaPuntos() {
